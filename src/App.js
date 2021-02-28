@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+import Navbar from "./components/Navbar"
+import Tickers from "./components/Tickers"
+import AddTicker from "./components/AddTicker"
 
 function App() {
+  const [showAddTicker, setShowAddTicker]  = useState(false)
+  const [tickers, setTickers] = useState([
+
+])
+const addTicker = (ticker) => {
+  const newTicker = {...ticker}
+  setTickers([...tickers, newTicker])
+}
+
+const deleteTicker = (instrument) => {
+  setTickers(tickers.filter((ticker) => ticker.instrument !== instrument))
+}
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar onAdd={() => setShowAddTicker(!showAddTicker)} showAddTicker={showAddTicker}/>
+      {showAddTicker && <AddTicker onAdd={addTicker}/>}
+      <Tickers tickers = {tickers} onDelete={deleteTicker}/>
     </div>
   );
 }
